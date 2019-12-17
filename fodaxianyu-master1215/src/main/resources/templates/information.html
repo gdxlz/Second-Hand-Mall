@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>个人中心</title>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/common.css">
+    <link rel="stylesheet" href="../css/register.css">
+    <!--导入jquery-->
+    <script src="../js/jquery-3.3.1.js"></script>
+    <script src="/js/getParameter.js"></script>
+</head>
+<script>
+    $(function () {
+        $.post("/user/findname",{},function (data) {
+            // console.log(data);
+            if(data.flag){
+//                var msg="欢迎回来     "+data.data.name;
+                $("#uid").val(data.data.uid)
+                $("#username").val(data.data.username)
+                $("#password").val(data.data.password)
+                $("#email").val(data.data.email)
+                $("#name").val(data.data.name)
+                $("#telephone").val(data.data.telephone)
+                $("#birthday").val(data.data.birthday)
+                if(data.data.sex=='男'){
+                    $("#sex").prop("checked",true);
+                }else{
+                    $("#sex1").prop("checked",true);
+                }
+            }
+        })
+    })
+
+</script>
+
+<body>
+<div class="shortcut">
+    <!-- 未登录状态  -->
+    <div class="login_out">
+        <a href="login.html">消息中心</a>
+        <a href="register.html" style="margin-right: 160px">个人中心</a>
+    </div>
+    <!-- 登录状态  -->
+    <div class="login">
+
+        <span id="span"></span>
+        <a href="collection1.html" class="collection">我的收藏</a>
+        <a href="login.html">退出</a>
+    </div>
+</div>
+<nav class="navbar navbar-default company" style="height: 150px">
+    <div class="container-fluid" style="float: left">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">
+                    <img alt="Brand" src="../images/logologo.png" style="height: 130px">
+                </a>
+            </div>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="float: left">
+            <ul class="nav navbar-nav">
+                <!--<li class="active" style="float: left"><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+                <li><a href="index.html" style="font-size: 20px">首页</a></li>
+                <li><a href="collection1.html" style="font-size: 20px">收藏夹</a></li>
+                <li><a href="sailGoods.html" style="font-size: 20px">我的商品</a></li>
+                <li><a href="information.html" style="font-size: 20px">个人中心</a></li>
+                <li><a href="#" style="font-size: 20px">联系客服</a></li>
+                <li><a href="#" style="font-size: 20px">网站导航</a></li>
+                <!--<li class="dropdown">-->
+                    <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>-->
+                    <!--<ul class="dropdown-menu">-->
+                        <!--<li><a href="#">Action</a></li>-->
+                        <!--<li><a href="#">Another action</a></li>-->
+                        <!--<li><a href="#">Something else here</a></li>-->
+                        <!--<li role="separator" class="divider"></li>-->
+                        <!--<li><a href="#">Separated link</a></li>-->
+                        <!--<li role="separator" class="divider"></li>-->
+                        <!--<li><a href="#">One more separated link</a></li>-->
+                    <!--</ul>-->
+                <!--</li>-->
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+<div class="rg_layout" style="margin-top: 30px;"><!--background: url(../static/img/个人中心背景.jpg)-->
+    <div class="rg_form clearfix">
+        <div class="rg_form_left">
+            <p></p>
+            <p></p>
+        </div>
+        <div class="rg_form_center">
+            <div id="errorMsg" style="color: red" align="center" th:text="${errorMsg}"></div>
+            <!--注册表单-->
+            <form id="registerForm" action="/user/updateInfo"  method="post" enctype="multipart/form-data">
+                <input type="hidden" name="action" value="register">
+                <table style="margin-top: 25px;">
+                    <tr><input type="hidden" id="uid" name="uid" placeholder="" style="margin-left: 20px"></tr>
+                    <tr >
+                        <td class="td_left" style="white-space: nowrap">
+                            <label for="username">用户名</label>
+                        </td>
+                        <td class="td_right">
+                            <input type="text" id="username" name="username" placeholder="请输入账号" style="margin-left: 20px">
+                        </td>
+                        <td width="300px"></td>
+                    </tr>
+                    <tr>
+                        <td class="td_left" style="white-space: nowrap">
+                            <label for="password">密码</label>
+                        </td>
+                        <td class="td_right">
+                            <input type="text" id="password" name="password" placeholder="请输入密码">
+                        </td>
+                        <td><div id="passworddiv"></div></td>
+                    </tr>
+                    <tr>
+                        <td class="td_left" style="white-space: nowrap">
+                            <label for="email">Email</label>
+                        </td>
+                        <td class="td_right">
+                            <input type="text" id="email" name="email" placeholder="请输入Email">
+                        </td>
+                        <td><div id="emaildiv"></div></td>
+                    </tr>
+                    <tr>
+                        <td class="td_left" style="white-space: nowrap">
+                            <label for="name">姓名</label>
+                        </td>
+                        <td class="td_right">
+                            <input type="text" id="name" name="name" placeholder="请输入真实姓名">
+                        </td>
+                        <td><div id="namediv"></div></td>
+                    </tr>
+                    <tr>
+                        <td class="td_left" style="white-space: nowrap">
+                            <label for="telephone">手机号</label>
+                        </td>
+                        <td class="td_right">
+                            <input type="text" id="telephone" name="telephone" placeholder="请输入您的手机号">
+                        </td>
+                        <td><div id="telephonediv"></div></td>
+                    </tr>
+                    <tr>
+                        <td class="td_left" style="white-space: nowrap">
+                            <label for="sex">性别</label>
+                        </td>
+                        <td class="td_right gender" style="white-space: nowrap">
+                            <input type="radio" id="sex" name="sex" value="男" checked="checked"> 男
+                            <input type="radio" id="sex1" name="sex" value="女"> 女
+                        </td>
+                        <td><div id="sexdiv"></div></td>
+                    </tr>
+                    <tr>
+                        <td class="td_left" style="white-space: nowrap">
+                            <label for="birthday">出生日期</label>
+                        </td>
+                        <td class="td_right" >
+                            <input type="date" id="birthday" name="birthday" placeholder="年/月/日">
+                        </td>
+                        <td><div id="birthdaydiv"></div></td>
+                    </tr>
+
+                    <tr>
+                        <td class="td_left">
+                        </td>
+                        <td class="td_right check">
+                            <!--<button type="button" class="btn btn-primary" style="width: 100px" id="button" onclick="editInfo()">修改</button>-->
+                            <input type="submit" class="btn btn-success" value="修改" style="width: 100px">
+                            <input type="reset" class="btn btn-success" value="重置" style="width: 100px">
+                            <span id="msg" style="color: red;"></span>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div class="rg_form_right">
+            <p>
+
+
+                <a href="#"></a>
+            </p>
+        </div>
+    </div>
+</div>
+<script src="/js/jquery-3.3.1.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+
+</body>
+</html>

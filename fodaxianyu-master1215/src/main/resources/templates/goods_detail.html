@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>商品详情</title>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/common.css">
+    <link rel="stylesheet" type="text/css" href="/css/route-detail.css">
+    <script src="/js/getParameter.js"></script>
+</head>
+<script>
+    $(function () {
+        $.post("/user/findname",{},function (data) {
+            if(data.flag){
+                var msg="欢迎回来     "+data.data.name;
+                $("#span").html(msg);
+            }
+        })
+    })
+</script>
+
+<body>
+<div class="shortcut">
+    <!-- 未登录状态  -->
+    <div class="login_out">
+        <a href="login.html">消息中心</a>
+        <a href="register.html" style="margin-right: 160px">个人中心</a>
+    </div>
+    <!-- 登录状态  -->
+    <div class="login">
+
+        <span id="span"></span>
+        <a href="collection1.html" class="collection">我的收藏</a>
+        <a href="javascript:location.href='login.html'">退出</a>
+    </div>
+</div>
+<nav class="navbar navbar-default company" style="height: 150px">
+    <div class="container-fluid" style="float: left">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">
+                    <img alt="Brand" src="../images/logologo.png" style="height: 130px">
+                </a>
+            </div>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="float: left">
+            <ul class="nav navbar-nav">
+                <!--<li class="active" style="float: left"><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+                <li><a href="index.html" style="font-size: 20px">首页</a></li>
+                <li><a href="collection1.html" style="font-size: 20px">收藏夹</a></li>
+                <li><a href="sailGoods.html" style="font-size: 20px">我的商品</a></li>
+                <li><a href="information.html" style="font-size: 20px">个人中心</a></li>
+                <li><a href="#" style="font-size: 20px">联系客服</a></li>
+                <li><a href="#" style="font-size: 20px">网站导航</a></li>
+
+                <!--<li class="dropdown">-->
+                <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>-->
+                <!--<ul class="dropdown-menu">-->
+                <!--<li><a href="#">Action</a></li>-->
+                <!--<li><a href="#">Another action</a></li>-->
+                <!--<li><a href="#">Something else here</a></li>-->
+                <!--<li role="separator" class="divider"></li>-->
+                <!--<li><a href="#">Separated link</a></li>-->
+                <!--<li role="separator" class="divider"></li>-->
+                <!--<li><a href="#">One more separated link</a></li>-->
+                <!--</ul>-->
+                <!--</li>-->
+            </ul>
+            <form class="navbar-form navbar-left" style="margin-top:80px;margin-left: 30px">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                </div>
+                <button type="submit" class="btn btn-default">搜索</button>
+            </form>
+            <form class="navbar-form navbar-right" style="margin-top:80px;margin-left: 30px">
+                <p><img src="/images/leaf.gif" class="the-leaf" width="400px" height="80px" alt="落叶"></p>
+            </form>
+
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+<div class="wrap">
+
+    <div class="bread_box">
+        <!--<div style="float: left;margin-left: 100px;margin-top: 50px"><img src="../images/logo.jpg" width="250px"></div>-->
+        <div style="float: left;font-size: 22px;margin-top: 10px;margin-bottom: 10px;margin-left: 50px">
+            <a href="index.html">首页</a>
+            <span> &gt;</span>
+            <a href="#" id="catelog">手机数码</a><span> &gt;</span>
+            <a href="#" id="goodName" style="margin-right: 100px">iphone11</a></div>
+
+    </div>
+    <div class="prosum_box">
+        <dl class="prosum_left">
+            <!--<dt>-->
+            <img src="/images/iphone2.jpg" class="big_img" id="img1">
+            <!--</dt>-->
+
+
+        </dl>
+        <div class="prosum_right">
+            <p class="pros_title" id="rname">Apple iPhone 11 (A2223) 128GB 黑色 移动联通电信4G手机 双卡双待</p>
+
+            <div class="pros_other" style="background-color: #FFFFE5">
+                <p >卖家  ：<span id="user">tb712389961</span></p>
+                <p >联系电话  ：<span id="telephone">400-618-9090</span></p>
+
+
+            </div>
+            <div class="pros_price" style="background-color: #FFFFE5">
+                <p class="price"><strong id="price">¥5999.00</strong></p>
+                <p class="collect" >
+                    <a class="btn" id="favorite" style="display:inline" onclick="addFavorite()"><i class="glyphicon glyphicon-heart-empty"></i>点击收藏</a>&nbsp;&nbsp;
+                    <img src="/images/sun1.gif" width="50px" height="50px" style="display: inline-block" alt="太阳">
+
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="you_need_konw">
+        <span>商品详情</span>
+        <div class="notice">
+            <p id="introduce"> 11111111111111111<br>
+        </div>
+    </div>
+</div>
+
+<script src="/js/jquery-3.3.1.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function() {
+        load1();
+    });
+    function load1() {
+        $('.little_img').on('mousemove', function() {
+            $('.little_img').removeClass('cur_img');
+            var big_pic = $(this).data('bigpic');
+            $('.big_img').attr('src', big_pic);
+            $(this).addClass('cur_img');
+        });
+        var picindex = 0;
+        var nextindex = 4;
+        $('.down_img').on('click',function(){
+            var num = $('.little_img').length;
+            if((nextindex + 1) <= num){
+                $('.little_img:eq('+picindex+')').hide();
+                $('.little_img:eq('+nextindex+')').show();
+                picindex = picindex + 1;
+                nextindex = nextindex + 1;
+            }
+        });
+        $('.up_img').on('click',function(){
+            var num = $('.little_img').length;
+            if(picindex > 0){
+                $('.little_img:eq('+(nextindex-1)+')').hide();
+                $('.little_img:eq('+(picindex-1)+')').show();
+                picindex = picindex - 1;
+                nextindex = nextindex - 1;
+            }
+        });
+    }
+    function auto_play() {
+        var cur_index = $('.prosum_left dd').find('a.cur_img').index();
+        cur_index = cur_index - 1;
+        var num = $('.little_img').length;
+        var max_index = 3;
+        if ((num - 1) < 3) {
+            max_index = num - 1;
+        }
+        if (cur_index < max_index) {
+            var next_index = cur_index + 1;
+            var big_pic = $('.little_img:eq(' + next_index + ')').data('bigpic');
+            $('.little_img').removeClass('cur_img');
+            $('.little_img:eq(' + next_index + ')').addClass('cur_img');
+            $('.big_img').attr('src', big_pic);
+        } else {
+            var big_pic = $('.little_img:eq(0)').data('bigpic');
+            $('.little_img').removeClass('cur_img');
+            $('.little_img:eq(0)').addClass('cur_img');
+            $('.big_img').attr('src', big_pic);
+        }
+    }
+    $(function () {
+        var goodId = getParameter("goodId");
+        $.get("/good/showGoodDetail/"+goodId,{},function (data) {
+            $("#catelog").html(data.good.catelog)
+            $("#goodName").html(data.good.goodName)
+            $("#rname").html(data.good.goodName)
+            $("#introduce").html(data.good.description)
+            $("#user").html(data.userName)
+            $("#price").html("¥"+data.good.price)
+            $("#img1").attr("src","/goodPicture/"+data.picturesList[0].pictureUrl)
+            $("#telephone").html(data.telephone)
+            var imgs=' <a class="up_img up_img_disable"></a>';
+            for(var i = 0; i<route.routeImgList.length;i++){
+                if(i>4){
+                    imgs+=' <a title="" class="little_img" data-bigpic="'+route.routeImgList[i].bigPic+'" style="display:none;">\n' +
+                        '                        <img src="'+route.routeImgList[i].smallPic+'">\n' +
+                        '                    </a>';
+                }else{
+                    imgs+='<a title="" class="little_img" data-bigpic="'+route.routeImgList[i].bigPic+'">\n' +
+                        '<img src="'+route.routeImgList[i].smallPic+'">\n' + '</a>'
+                }
+
+
+            }
+            imgs+='<a class="down_img down_img_disable" style="margin-bottom: 0;"></a>'
+            $("#dd").html(imgs);
+            load1();
+        });
+        $.get("route/isFavorite",{rid:rid},function (flag) {
+
+            if (flag){
+                $("#favorite").addClass("already");
+                $("#favorite").attr("disabled","disabled");
+                $("#favorite").removeAttr("onclick");
+            }else{
+            }
+        })
+    })
+    function addFavorite() {
+        var goodId = getParameter("goodId");
+        $.post("/user/findname",{},function (user) {
+            if(user.flag){
+                $.get("/good/saveCollect/"+goodId+"",{},function () {
+                    //location.reload();
+                    location.href="collection1.html"
+                })
+            }else{
+                alert("你还没有登录，请登录！")
+                location.href="login.html";
+            }
+        })
+    }
+</script>
+</body>
+
+</html>

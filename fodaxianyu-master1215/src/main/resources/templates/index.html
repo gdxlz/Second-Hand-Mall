@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>佛大二手商城</title>
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/common.css">
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+    <!--加导航条-->
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="/js/jquery-3.3.1.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+    <!--导入布局js，共享header和footer-->
+    <!--<script type="text/javascript" src="/js/include.js"></script>-->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<script>
+    $(function () {
+        $.post("/user/findname",{},function (data) {
+            if(data.flag){
+                var msg="欢迎回来  <a href=information.html class=\'individual\'>"+data.data.name+"</a>";
+                $("#span").html(msg);
+            }
+        })
+        // alert("开始了吗？")
+        load(null)
+        $("#love").click(function () {
+            loadlove(null)
+
+        })
+        $(".collection").click(function () {
+            $.get("/good/findMyCollections",{},function (data) {
+                if (data==""){
+                    alert("你还没有登录，请先登录")
+                    location.href="login.html";
+                }else{
+                    location.href="collection1.html";
+                }
+            })
+        })
+        $(".public").click(function () {
+            $.get("/good/findMyCollections",{},function (data) {
+                if (data==""){
+                    alert("你还没有登录，请先登录")
+                    location.href="login.html";
+                }else{
+                    location.href="release.html";
+                }
+            })
+        })
+        /*$(".mind").click(function () {
+            $.get("/good/findMyCollections",{},function (data) {
+                if (data==""){
+                    alert("你还没有登录，请先登录")
+                    location.href="login.html";
+                }else{
+                    location.href="myGood.html";
+                }
+            })
+        })*/
+
+        $("#search-button").click(function () {
+            var str = $("#search_input").val();
+            loadsearch(null,str);
+        })
+        $("#catelogUl li").click(function () {
+            var str = $(this).text();
+            // alert("str:"+str);
+            loadsearch(null,str);
+        })
+        // $(document).ready(function(){
+        //     var Uarry=$("#catelogUl li");//获取所有的li元素
+        //     $("#catelogUl li").click(function(){//点击事件
+        //         // 测试直接获取值
+        //          var v=$(this).text();
+        //          alert("v:"+v);
+        //         var count=$(this).index();//获取li的下标
+        //          alert("count:"+count);
+        //         // $("#tresult").val(Tresult);
+        //        var liValue= Uarry.eq(count).text();
+        //        alert("liValue:"+liValue);
+        //         var str = liValue;
+        //         alert("str:"+str)
+        //         loadsearch(null,str);
+        //     })
+        // })
+
+
+    })
+
+    function load(pageNo) {
+        $.get("/good/queryAllGoodPicture",{pageNo:pageNo},function (data) {
+            $("#head1").html(data.list[0].description)
+            $("#price1").html(data.list[0].price)
+            $("#img1").attr("src","/goodPicture/"+data.list[0].pictureUrl)
+            $("#a1").attr("href","goods_detail.html?"+"goodId="+data.list[0].goodId)
+            $("#head2").html(data.list[1].description)
+            $("#price2").html(data.list[1].price)
+            $("#img2").attr("src","/goodPicture/"+data.list[1].pictureUrl)
+            $("#a2").attr("href","goods_detail.html?"+"goodId="+data.list[1].goodId)
+            $("#head3").html(data.list[2].description)
+            $("#price3").html(data.list[2].price)
+            $("#img3").attr("src","/goodPicture/"+data.list[2].pictureUrl)
+            $("#a3").attr("href","goods_detail.html?"+"goodId="+data.list[2].goodId)
+            $("#head4").html(data.list[3].description)
+            $("#price4").html(data.list[3].price)
+            $("#img4").attr("src","/goodPicture/"+data.list[3].pictureUrl)
+            $("#a4").attr("href","goods_detail.html?"+"goodId="+data.list[3].goodId)
+            $("#head5").html(data.list[4].description)
+            $("#price5").html(data.list[4].price)
+            $("#img5").attr("src","/goodPicture/"+data.list[4].pictureUrl)
+            $("#a5").attr("href","goods_detail.html?"+"goodId="+data.list[4].goodId)
+            $("#head6").html(data.list[5].description)
+            $("#price6").html(data.list[5].price)
+            $("#img6").attr("src","/goodPicture/"+data.list[5].pictureUrl)
+            $("#a6").attr("href","goods_detail.html?"+"goodId="+data.list[5].goodId)
+            $("#head7").html(data.list[6].description)
+            $("#price7").html(data.list[6].price)
+            $("#img7").attr("src","/goodPicture/"+data.list[6].pictureUrl)
+            $("#a7").attr("href","goods_detail.html?"+"goodId="+data.list[6].goodId)
+            $("#head8").html(data.list[7].description)
+            $("#price8").html(data.list[7].price)
+            $("#img8").attr("src","/goodPicture/"+data.list[7].pictureUrl)
+            $("#a8").attr("href","goods_detail.html?"+"goodId="+data.list[7].goodId)
+            var totalPage = data.pages;
+            var totalCount = data.total;
+            //$("#totalPage").html(totalPage);
+            //$("#totalCount").html(totalCount);
+            var lis="";
+            var first=1;
+            var last=data.pages;
+            var before=pageNo-1;
+            var next=pageNo+1;
+            if(next>totalPage){
+                next=totalPage;
+            }
+            if(before<=0){
+                before=1;
+            }
+            var begin=data.pageNum-5;
+            var end=data.pageNum+4;
+            if(data.pages<10){
+                begin=1;
+                end=data.pages;
+            }
+            if(begin<1){
+                begin=1;
+                end=10;
+            }
+            if(end>data.pages){
+                end=data.pages;
+                begin=end-9;
+            }
+
+            lis+='<li onclick="javascript:load('+first+')"><a href="javascript:void(0)">首页</a></li>';
+            lis+='<li onclick="load('+before+')" class="threeword"><a href="javascript:void(0)">上一页</a></li>';
+
+            for(var i=begin;i<=end;i++){
+                if(data.pageNum == i){
+                    lis += '<li class="curPage" onclick="javascipt:load('+i+')"><a href="javascript:void(0)">'+i+'</a></li>';
+
+                }else{
+                    //创建页码的li
+                    lis += '<li onclick="javascipt:load('+i+')"><a href="javascript:void(0)">'+i+'</a></li>';
+                }
+            }
+            lis+='<li onclick="javascript:load('+next+')" class="threeword"><a href="javascript:void(0)">下一页</a></li>';
+            lis+='<li onclick="javascript:load('+last+')" class="threeword"><a href="javascript:void(0)">末页</a></li>';
+            $(".pagination").html(lis)
+        })
+    }
+    function loadlove(pageNo) {
+        $.get("/good/queryFavoriteGoodPicture",{pageNo:pageNo},function (data) {
+            $("#head1").html(data.list[0].description)
+            $("#price1").html(data.list[0].price)
+            $("#img1").attr("src","/goodPicture/"+data.list[0].pictureUrl)
+            $("#a1").attr("href","goods_detail.html?"+"goodId="+data.list[0].goodId)
+            $("#head2").html(data.list[1].description)
+            $("#price2").html(data.list[1].price)
+            $("#img2").attr("src","/goodPicture/"+data.list[1].pictureUrl)
+            $("#a2").attr("href","goods_detail.html?"+"goodId="+data.list[1].goodId)
+            $("#head3").html(data.list[2].description)
+            $("#price3").html(data.list[2].price)
+            $("#img3").attr("src","/goodPicture/"+data.list[2].pictureUrl)
+            $("#a3").attr("href","goods_detail.html?"+"goodId="+data.list[2].goodId)
+            $("#head4").html(data.list[3].description)
+            $("#price4").html(data.list[3].price)
+            $("#img4").attr("src","/goodPicture/"+data.list[3].pictureUrl)
+            $("#a4").attr("href","goods_detail.html?"+"goodId="+data.list[3].goodId)
+            $("#head5").html(data.list[4].description)
+            $("#price5").html(data.list[4].price)
+            $("#img5").attr("src","/goodPicture/"+data.list[4].pictureUrl)
+            $("#a5").attr("href","goods_detail.html?"+"goodId="+data.list[4].goodId)
+            $("#head6").html(data.list[5].description)
+            $("#price6").html(data.list[5].price)
+            $("#img6").attr("src","/goodPicture/"+data.list[5].pictureUrl)
+            $("#a6").attr("href","goods_detail.html?"+"goodId="+data.list[5].goodId)
+            $("#head7").html(data.list[6].description)
+            $("#price7").html(data.list[6].price)
+            $("#img7").attr("src","/goodPicture/"+data.list[6].pictureUrl)
+            $("#a7").attr("href","goods_detail.html?"+"goodId="+data.list[6].goodId)
+            $("#head8").html(data.list[7].description)
+            $("#price8").html(data.list[7].price)
+            $("#img8").attr("src","/goodPicture/"+data.list[7].pictureUrl)
+            $("#a8").attr("href","goods_detail.html?"+"goodId="+data.list[7].goodId)
+            var totalPage = data.pages;
+            var totalCount = data.total;
+            //$("#totalPage").html(totalPage);
+            //$("#totalCount").html(totalCount);
+            var lis="";
+            var first=1;
+            var last=data.pages;
+            var before=pageNo-1;
+            var next=pageNo+1;
+            if(next>totalPage){
+                next=totalPage;
+            }
+            if(before<=0){
+                before=1;
+            }
+            var begin=data.pageNum-5;
+            var end=data.pageNum+4;
+            if(data.pages<10){
+                begin=1;
+                end=data.pages;
+            }
+            if(begin<1){
+                begin=1;
+                end=10;
+            }
+            if(end>data.pages){
+                end=data.pages;
+                begin=end-9;
+            }
+
+            lis+='<li onclick="javascript:loadlove('+first+')"><a href="javascript:void(0)">首页</a></li>';
+            lis+='<li onclick="loadlove('+before+')" class="threeword"><a href="javascript:void(0)">上一页</a></li>';
+
+            for(var i=begin;i<=end;i++){
+                if(data.pageNum == i){
+                    lis += '<li class="curPage" onclick="javascipt:loadlove('+i+')"><a href="javascript:void(0)">'+i+'</a></li>';
+
+                }else{
+                    //创建页码的li
+                    lis += '<li onclick="javascipt:loadlove('+i+')"><a href="javascript:void(0)">'+i+'</a></li>';
+                }
+            }
+            lis+='<li onclick="javascript:loadlove('+next+')" class="threeword"><a href="javascript:void(0)">下一页</a></li>';
+            lis+='<li onclick="javascript:loadlove('+last+')" class="threeword"><a href="javascript:void(0)">末页</a></li>';
+            $(".pagination").html(lis)
+        })
+    }
+
+    function loadsearch(pageNo,str) {
+        $.get("/good/findAllGoodPictureByString",{pageNo:pageNo,str:str},function (data) {
+            $("#head1").html(data.list[0].description)
+            $("#price1").html(data.list[0].price)
+            $("#img1").attr("src","/goodPicture/"+data.list[0].pictureUrl)
+            $("#a1").attr("href","goods_detail.html?"+"goodId="+data.list[0].goodId)
+            $("#head2").html(data.list[1].description)
+            $("#price2").html(data.list[1].price)
+            $("#img2").attr("src","/goodPicture/"+data.list[1].pictureUrl)
+            $("#a2").attr("href","goods_detail.html?"+"goodId="+data.list[1].goodId)
+            $("#head3").html(data.list[2].description)
+            $("#price3").html(data.list[2].price)
+            $("#img3").attr("src","/goodPicture/"+data.list[2].pictureUrl)
+            $("#a3").attr("href","goods_detail.html?"+"goodId="+data.list[2].goodId)
+            $("#head4").html(data.list[3].description)
+            $("#price4").html(data.list[3].price)
+            $("#img4").attr("src","/goodPicture/"+data.list[3].pictureUrl)
+            $("#a4").attr("href","goods_detail.html?"+"goodId="+data.list[3].goodId)
+            $("#head5").html(data.list[4].description)
+            $("#price5").html(data.list[4].price)
+            $("#img5").attr("src","/goodPicture/"+data.list[4].pictureUrl)
+            $("#a5").attr("href","goods_detail.html?"+"goodId="+data.list[4].goodId)
+            $("#head6").html(data.list[5].description)
+            $("#price6").html(data.list[5].price)
+            $("#img6").attr("src","/goodPicture/"+data.list[5].pictureUrl)
+            $("#a6").attr("href","goods_detail.html?"+"goodId="+data.list[5].goodId)
+            $("#head7").html(data.list[6].description)
+            $("#price7").html(data.list[6].price)
+            $("#img7").attr("src","/goodPicture/"+data.list[6].pictureUrl)
+            $("#a7").attr("href","goods_detail.html?"+"goodId="+data.list[6].goodId)
+            $("#head8").html(data.list[7].description)
+            $("#price8").html(data.list[7].price)
+            $("#img8").attr("src","/goodPicture/"+data.list[7].pictureUrl)
+            $("#a8").attr("href","goods_detail.html?"+"goodId="+data.list[7].goodId)
+            var totalPage = data.pages;
+            var totalCount = data.total;
+            //$("#totalPage").html(totalPage);
+            //$("#totalCount").html(totalCount);
+            var lis="";
+            var first=1;
+            var last=data.pages;
+            var before=pageNo-1;
+            var next=pageNo+1;
+            if(next>totalPage){
+                next=totalPage;
+            }
+            if(before<=0){
+                before=1;
+            }
+            var begin=data.pageNum-5;
+            var end=data.pageNum+4;
+            if(data.pages<10){
+                begin=1;
+                end=data.pages;
+            }
+            if(begin<1){
+                begin=1;
+                end=10;
+            }
+            if(end>data.pages){
+                end=data.pages;
+                begin=end-9;
+            }
+
+            lis+='<li onclick="javascript:loadsearch('+first+',&quot;'+str+'&quot;)"><a href="javascript:void(0)">首页</a></li>';
+            lis+='<li onclick="loadsearch('+before+',&quot;'+str+'&quot;)" class="threeword"><a href="javascript:void(0)">上一页</a></li>';
+
+            for(var i=begin;i<=end;i++){
+                if(data.pageNum == i){
+                    lis += '<li class="curPage" onclick="javascipt:loadsearch('+i+',&quot;'+str+'&quot;)"><a href="javascript:void(0)">'+i+'</a></li>';
+
+                }else{
+                    //创建页码的li
+                    lis += '<li onclick="javascipt:loadsearch('+i+',&quot;'+str+'&quot;)"><a href="javascript:void(0)">'+i+'</a></li>';
+                }
+            }
+            lis+='<li onclick="javascript:loadsearch('+next+',&quot;'+str+'&quot;)" class="threeword"><a href="javascript:void(0)">下一页</a></li>';
+            lis+='<li onclick="javascript:loadsearch('+last+',&quot;'+str+'&quot;)" class="threeword"><a href="javascript:void(0)">末页</a></li>';
+            $(".pagination").html(lis)
+        })
+    }
+</script>
+<body>
+<!--引入头部-->
+<div class="top_banner" style="height: 400px">
+    <img src="/images/fish.jpg" alt="" width="1500px" height="400px">
+</div>
+<div class="shortcut">
+    <!-- 未登录状态  -->
+    <div class="login_out">
+        <a href="login.html">登录</a>
+        <a href="register.html">注册</a>
+        <a href="javascript:void(0)" class="public">发布商品</a>
+        <!--<a href="myGood.html">我的商品</a>-->
+        <ul id="nav1">
+            <li><a href="sailGoods.html">我的商品</a>
+                <ul id="nav2">
+                    <li><a href="checkingGoods.html" style="padding: 0px 4px 0px 4px">审核中</a></li>
+                    <li><a href="sailGoods.html">在售商品</a></li>
+                    <li><a href="downGoods.html">下架商品</a></li>
+                    <li><a href="soldoutGoods.html">已售商品</a></li>
+
+                    <!--<li><a href="myGood.html">全部商品</a></li>-->
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <!-- 登录状态  -->
+    <div class="login">
+        <span id="span"></span>
+        <a href="javascript:void(0)" class="collection">我的收藏</a>
+        <a href="login.html">退出</a>
+    </div>
+</div>
+<div class="header_wrap">
+    <div class="topbar">
+        <div class="logo">
+            <a href="/"><img src="/images/logo.jpg" alt="" width="300px" height="130px" ></a>
+        </div>
+        <form id="search">
+            <div class="search" style="margin-top: 40px;margin-left: 30px">
+                <input name="str" type="text" placeholder="请输入商品名称" id="search_input" class="search_input" autocomplete="off">
+                <a href="javascript:;" id="search-button" class="search-button">搜索</a>
+            </div>
+        </form>
+        <div class="hottel" style="margin-top: 30px">
+            <div class="hot_pic">
+                <img src="/images/hot_tel.jpg" alt="">
+            </div>
+            <div class="hot_tel">
+                <p class="hot_time">客服热线(9:00-6:00)</p>
+                <p class="hot_num">400-618-9090</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- banner start-->
+<section id="banner">
+    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="2000" style="width:80%;margin: auto">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+            <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+        </ol>
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+            <div class="item active">
+                <img src="/images/ban.jpg" alt="">
+            </div>
+            <div class="item">
+                <img src="/images/ban4.jpg" alt="">
+            </div>
+            <div class="item">
+                <img src="/images/ban6.jpg" alt="">
+            </div>
+        </div>
+        <!-- Controls -->
+        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</section>
+<nav class="navbar navbar-default" style="width:80%;margin: auto">
+    <div class="container" >
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav nav-tabs" id="catelogUl">
+                <li style="width: 12%"><a href="javascript:;">服装</a></li>
+                <li style="width: 12%"><a href="javascript:;">食品</a></li>
+                <li style="width: 12%"><a href="javascript:;">家电</a></li>
+                <li style="width: 12%"><a href="javascript:;">旧书</a></li>
+                <li style="width: 13%"><a href="javascript:;">电子产品</a></li>
+                <li style="width: 13%"><a href="javascript:;">生活用品</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<section id="content">
+    <section class="hemai_jx">
+        <div class="jx_top">
+            <div class="jx_tit">
+                <a href="javascript:void(0)" id="love"><img src="/images/icon_5.jpg" alt="">
+                    <span style="font-size: 15px">猜你喜欢</span></a>
+            </div>
+            <div class="jx_tit" style="margin-left: 1000px" id="回到首页">
+                <a href="index.html"><span  href="index.html"><img src="/images/icon_5.jpg" alt=""></span>
+                    <!--<span style="font-size: 15px">换一批</span>-->
+                    <span style="font-size: 15px">回到首页</span></a>
+                </span></a>
+            </div>
+        </div>
+        <div class="jx_content">
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="popularity">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <a id="a1">
+                                <img  alt="" style="height: 300px" id="img1">
+                                <div>
+                                    <h3 id="head1"></h3>
+                                    <div class="price"><em>￥</em><strong id="price1"></strong></div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a id="a2">
+                                <img  alt="" style="height: 300px" id="img2">
+                                <div class="has_border">
+                                    <h3 id="head2"></h3>
+                                    <div class="price"><em>￥</em><strong id="price2"></strong></div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a id="a3">
+                                <img  alt="" style="height: 300px" id="img3">
+                                <div class="has_border">
+                                    <h3 id="head3"></h3>
+                                    <div class="price"><em>￥</em><strong id="price3"></strong></div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a id="a4">
+                                <img  alt="" style="height: 300px" id="img4">
+                                <div class="has_border">
+                                    <h3 id="head4"></h3>
+                                    <div class="price"><em>￥</em><strong id="price4"></strong></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane active" id="popularity">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <a id="a5">
+                                <img  alt="" style="height: 300px" id="img5">
+                                <div class="has_border">
+                                    <h3 id="head5"></h3>
+                                    <div class="price"><em>￥</em><strong id="price5"></strong></div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a id="a6">
+                                <img  alt="" style="height: 300px" id="img6">
+                                <div class="has_border">
+                                    <h3 id="head6"></h3>
+                                    <div class="price"><em>￥</em><strong id="price6"></strong></div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a id="a7">
+                                <img alt="" style="height: 300px" id="img7">
+                                <div class="has_border">
+                                    <h3 id="head7"></h3>
+                                    <div class="price"><em>￥</em><strong id="price7"></strong></div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a id="a8">
+                                <img  alt="" style="height: 300px" id="img8">
+                                <div class="has_border">
+                                    <h3 id="head8"></h3>
+                                    <div class="price"><em>￥</em><strong id="price8"></strong></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <nav aria-label="Page navigation" style="margin-left: 40%">
+                    <ul class="pagination">
+
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </section>
+</section>
+
+<div class="why_select" style="background-color: #0f0f0f">
+    <dl>
+        <dt class="fl">
+            <img src="/images/1.png" alt="">
+        </dt>
+    </dl>
+    <dl >
+        <dt class="fl" style="margin-left: 35px">
+            <img src="/images/2.png" alt="">
+        </dt>
+    </dl>
+    <dl >
+        <dt class="fl" style="margin-left: 35px">
+            <img src="/images/3.png" alt="">
+        </dt>
+    </dl>
+    <dl >
+        <dt class="fl" style="margin-left: 35px">
+            <img src="/images/4.png" alt="">
+        </dt>
+    </dl>
+</div>
+<div class="company">
+    <p>佛山科学技术学院 版权所有Copyright 2019-2020, All Rights Reserved 广东16007882</p>
+</div>
+</body>
+</html>

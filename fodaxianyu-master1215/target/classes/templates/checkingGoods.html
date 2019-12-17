@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>审核中</title>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/common.css">
+    <link rel="stylesheet" type="text/css" href="/css/route-detail.css">
+    <script src="/js/getParameter.js"></script>
+    <!--<script src="/js/checkAll.js"></script>-->
+</head>
+<script>
+    $(function () {
+        $.post("/user/findname",{},function (data) {
+            if(data.flag){
+                var msg="欢迎回来     "+data.data.name;
+                $("#span").html(msg);
+            }
+        })
+
+    })
+
+    function load(pageNo) {
+        $.get("/good/queryAllMyCheckingGoodAndPicture", {pageNo:pageNo}, function (data) {
+            var totalPage = data.pages;
+            var totalCount = data.total;
+            //$("#totalPage").html(totalPage);
+            //$("#totalCount").html(totalCount);
+            var lis="";
+            var first=1;
+            var last=data.pages;
+            var before=pageNo-1;
+            var next=pageNo+1;
+            if(next>totalPage){
+                next=totalPage;
+            }
+            if(before<=0){
+                before=1;
+            }
+            var begin=data.pageNum-5;
+            var end=data.pageNum+4;
+            if(data.pages<10){
+                begin=1;
+                end=data.pages;
+            }
+            if(begin<1){
+                begin=1;
+                end=10;
+            }
+            if(end>data.pages){
+                end=data.pages;
+                begin=end-9;
+            }
+
+            lis+='<li onclick="javascript:load('+first+')"><a href="javascript:void(0)">首页</a></li>';
+            lis+='<li onclick="load('+before+')" class="threeword"><a href="javascript:void(0)">上一页</a></li>';
+
+            for(var i=begin;i<=end;i++){
+                if(data.pageNum == i){
+                    lis += '<li class="curPage" onclick="javascipt:load('+i+')"><a href="javascript:void(0)">'+i+'</a></li>';
+
+                }else{
+                    //创建页码的li
+                    lis += '<li onclick="javascipt:load('+i+')"><a href="javascript:void(0)">'+i+'</a></li>';
+                }
+            }
+            lis+='<li onclick="javascript:load('+next+')" class="threeword"><a href="javascript:void(0)">下一页</a></li>';
+            lis+='<li onclick="javascript:load('+last+')" class="threeword"><a href="javascript:void(0)">末页</a></li>';
+            $(".pagination").html(lis)
+
+            var information = "";
+            information+=' <tr>\n' +
+                '        <td width="200px"><div style="margin-left: 385px">商品</div></td>\n' +
+                '        <td width="250px"><div style="margin-left: 110px">商品信息</div></td>\n' +
+                '        <td width="180px"><div style="margin-left: 60px">价格</div></td>\n' +
+                '        <td width="600px"><div style="margin-left: 70px">状态</div></td>\n' +
+                '        <!--<td>商品信息</td>-->\n' +
+                '        <!--<td>价格</td>-->\n' +
+                '        <!--<td>卖家</td>-->\n' +
+                '        <!--<td>操作</td>-->\n' +
+                '    </tr>'
+            for (var i = 0; i < data.list.length; i++) {
+                information +='  <tr>\n' +
+                    '            <td width="200px" height="50px"><div style="margin-left: 320px;margin-top: 20px"> <a href="goods_detail.html?goodId='+data.list[i].goodId+'"><img src="../goodPicture/'+data.list[i].pictureUrl+'"  style="height: 150px;width: 150px"></a></div></td>\n' +
+                    '            <td width="250px"><div class="the-detial" style="margin-left: 80px;margin-top: 30px">'+data.list[i].description+'</div></td>\n' +
+                    '            <td width="180px"><div class="price" style="margin-left: 60px;margin-top: 30px">'+'￥&nbsp;'+data.list[i].price+'</div></td>\n' +
+                    '            <td width="600px">\n' +
+                    '                <div style="margin-left: 50px;margin-top: 30px">\n' +
+                    '                    <p class="btn status-soldout" style="background-color: #b9def0">待审核</p>' +
+                    '                    <a href="goods_detail.html?goodId='+data.list[i].goodId+'" ><input type="image" src="/images/like.gif" width="80px" height="80px" onclick="" title="详情" class="like"></a>\n' +
+                    '\n' +
+                    '                </div>\n' +
+                    '\n' +
+                    '            </td>\n' +
+                    '        </tr>'
+            }
+            $(".infomation").html(information);
+        })
+
+    }
+</script>
+
+<body>
+<div class="shortcut">
+    <!-- 未登录状态  -->
+    <div class="login_out">
+        <a href="login.html">消息中心</a>
+        <a href="register.html" style="margin-right: 160px">个人中心</a>
+    </div>
+    <!-- 登录状态  -->
+    <div class="login">
+
+        <span id="span"></span>
+        <a href="collection1.html" class="collection">我的收藏</a>
+        <a href="login.html">退出</a>
+    </div>
+</div>
+<nav class="navbar navbar-default company" style="height: 150px">
+    <div class="container-fluid" style="float: left">
+        <div class="container-fluid">
+            <div class="navbar-header">s
+                <a class="navbar-brand" href="#">
+                    <img alt="Brand" src="../images/logologo.png" style="height: 130px">
+                </a>
+            </div>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="float: left">
+            <ul class="nav navbar-nav">
+                <!--<li class="active" style="float: left"><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+                <li><a href="index.html" style="font-size: 20px">首页</a></li>
+                <li><a href="collection1.html" style="font-size: 20px">收藏夹</a></li>
+                <li><a href="sailGoods.html" style="font-size: 20px">我的商品</a></li>
+                <li><a href="information.html" style="font-size: 20px">个人中心</a></li>
+                <li><a href="#" style="font-size: 20px">联系客服</a></li>
+                <li><a href="#" style="font-size: 20px">网站导航</a></li>
+                <!--<li class="dropdown">-->
+                <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>-->
+                <!--<ul class="dropdown-menu">-->
+                <!--<li><a href="#">Action</a></li>-->
+                <!--<li><a href="#">Another action</a></li>-->
+                <!--<li><a href="#">Something else here</a></li>-->
+                <!--<li role="separator" class="divider"></li>-->
+                <!--<li><a href="#">Separated link</a></li>-->
+                <!--<li role="separator" class="divider"></li>-->
+                <!--<li><a href="#">One more separated link</a></li>-->
+                <!--</ul>-->
+                <!--</li>-->
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+<table class="table table-hover infomation">
+
+
+    <!--<tr>-->
+    <!--<td><div style="margin-left: 20px;margin-top: 50px"><input type="radio"></div></td>-->
+    <!--<td width="200px" height="50px"><img src="../images/jingxuan_2.jpg"></td>-->
+    <!--<td width="200px"><div style="margin-left: 20px;margin-top: 30px">飞利浦剃须刀飞利浦剃须刀飞利浦剃须刀飞利浦剃须刀飞利浦剃须刀飞利浦剃须刀</div></td>-->
+    <!--<td width="200px"><div style="margin-left: 20px;margin-top: 30px">299.00</div></td>-->
+    <!--<td width="200px"><div style="margin-left: 20px;margin-top: 30px">tavasdasdasdsa</div></td>-->
+    <!--<td width="200px">-->
+    <!--<div style="margin-left: 20px;margin-top: 30px">-->
+    <!--<button type="button" class="btn btn-danger">删除</button>-->
+
+    <!--</div>-->
+
+    <!--</td>-->
+    <!--</tr>-->
+    <!--<tr>-->
+    <!--<td><div style="margin-left: 20px;margin-top: 50px"><input type="radio"></div></td>-->
+    <!--<td width="200px" height="50px"><img src="../images/jingxuan_2.jpg"></td>-->
+    <!--<td width="200px"><div style="margin-left: 20px;margin-top: 30px">飞利浦剃须刀飞利浦剃须刀飞利浦剃须刀飞利浦剃须刀飞利浦剃须刀飞利浦剃须刀</div></td>-->
+    <!--<td width="200px"><div style="margin-left: 20px;margin-top: 30px">299.00</div></td>-->
+    <!--<td width="200px"><div style="margin-left: 20px;margin-top: 30px">tavasdasdasdsa</div></td>-->
+    <!--<td width="200px">-->
+    <!--<div style="margin-left: 20px;margin-top: 30px">-->
+    <!--<button type="button" class="btn btn-danger">删除</button>-->
+
+    <!--</div>-->
+
+    <!--</td>-->
+    <!--</tr>-->
+    <!--<tr>-->
+    <!--<td><div style="margin-left: 20px;margin-top: 50px"><input type="radio"></div></td>-->
+    <!--<td width="200px" height="50px"><img src="../images/jingxuan_2.jpg"></td>-->
+    <!--<td width="200px"><div style="margin-left: 20px;margin-top: 30px">飞利浦剃须刀飞利浦剃须刀飞利浦剃须刀飞利浦剃须刀飞利浦剃须刀飞利浦剃须刀</div></td>-->
+    <!--<td width="200px"><div style="margin-left: 20px;margin-top: 30px">299.00</div></td>-->
+    <!--<td width="200px"><div style="margin-left: 20px;margin-top: 30px">tavasdasdasdsa</div></td>-->
+    <!--<td width="200px">-->
+    <!--<div style="margin-left: 20px;margin-top: 30px">-->
+    <!--<button type="button" class="btn btn-danger">删除</button>-->
+
+    <!--</div>-->
+
+    <!--</td>-->
+    <!--</tr>-->
+    <!--<tr>-->
+    <!--<td><div style="margin-left: 20px;margin-top: 50px"><input type="radio"></div></td>-->
+    <!--<td width="200px" height="50px"><img src="../images/jingxuan_2.jpg"></td>-->
+    <!--<td width="200px"><div style="margin-left: 20px;margin-top: 30px">飞利浦剃须刀飞利浦剃须刀飞利浦剃须刀飞利浦剃须刀飞利浦剃须刀飞利浦剃须刀</div></td>-->
+    <!--<td width="200px"><div style="margin-left: 20px;margin-top: 30px">299.00</div></td>-->
+    <!--<td width="200px"><div style="margin-left: 20px;margin-top: 30px">tavasdasdasdsa</div></td>-->
+    <!--<td width="200px">-->
+    <!--<div style="margin-left: 20px;margin-top: 30px">-->
+    <!--<button type="button" class="btn btn-danger">删除</button>-->
+
+    <!--</div>-->
+
+    <!--</td>-->
+    <!--</tr>-->
+
+
+
+</table>
+<nav aria-label="Page navigation" style="margin-left: 40%">
+    <ul class="pagination">
+
+    </ul>
+</nav>
+
+<script src="/js/jquery-3.3.1.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function() {
+        load1();
+        load(null);
+    });
+    function load1() {
+        $('.little_img').on('mousemove', function() {
+            $('.little_img').removeClass('cur_img');
+            var big_pic = $(this).data('bigpic');
+            $('.big_img').attr('src', big_pic);
+            $(this).addClass('cur_img');
+        });
+        var picindex = 0;
+        var nextindex = 4;
+        $('.down_img').on('click',function(){
+            var num = $('.little_img').length;
+            if((nextindex + 1) <= num){
+                $('.little_img:eq('+picindex+')').hide();
+                $('.little_img:eq('+nextindex+')').show();
+                picindex = picindex + 1;
+                nextindex = nextindex + 1;
+            }
+        });
+        $('.up_img').on('click',function(){
+            var num = $('.little_img').length;
+            if(picindex > 0){
+                $('.little_img:eq('+(nextindex-1)+')').hide();
+                $('.little_img:eq('+(picindex-1)+')').show();
+                picindex = picindex - 1;
+                nextindex = nextindex - 1;
+            }
+        });
+    }
+    function auto_play() {
+        var cur_index = $('.prosum_left dd').find('a.cur_img').index();
+        cur_index = cur_index - 1;
+        var num = $('.little_img').length;
+        var max_index = 3;
+        if ((num - 1) < 3) {
+            max_index = num - 1;
+        }
+        if (cur_index < max_index) {
+            var next_index = cur_index + 1;
+            var big_pic = $('.little_img:eq(' + next_index + ')').data('bigpic');
+            $('.little_img').removeClass('cur_img');
+            $('.little_img:eq(' + next_index + ')').addClass('cur_img');
+            $('.big_img').attr('src', big_pic);
+        } else {
+            var big_pic = $('.little_img:eq(0)').data('bigpic');
+            $('.little_img').removeClass('cur_img');
+            $('.little_img:eq(0)').addClass('cur_img');
+            $('.big_img').attr('src', big_pic);
+        }
+    }
+    $(function () {
+        var rid = getParameter("rid");
+        $.get("route/findOne",{rid:rid},function (route) {
+            $("#rname").html(route.rname);
+            $("#routeIntroduce").html(route.routeIntroduce);
+            $("#price").html("￥"+route.price);
+            $("#sname").html(route.seller.sname);
+            $("#consphone").html(route.seller.consphone);
+            $("#address").html(route.seller.address);
+            $("#num").html(route.count);
+            var imgs=' <a class="up_img up_img_disable"></a>';
+            for(var i = 0; i<route.routeImgList.length;i++){
+                if(i>4){
+                    imgs+=' <a title="" class="little_img" data-bigpic="'+route.routeImgList[i].bigPic+'" style="display:none;">\n' +
+                        '                        <img src="'+route.routeImgList[i].smallPic+'">\n' +
+                        '                    </a>';
+                }else{
+                    imgs+='<a title="" class="little_img" data-bigpic="'+route.routeImgList[i].bigPic+'">\n' +
+                        '<img src="'+route.routeImgList[i].smallPic+'">\n' + '</a>'
+                }
+
+
+            }
+            imgs+='<a class="down_img down_img_disable" style="margin-bottom: 0;"></a>'
+            $("#dd").html(imgs);
+            load1();
+        });
+        $.get("route/isFavorite",{rid:rid},function (flag) {
+
+            if (flag){
+                $("#favorite").addClass("already");
+                $("#favorite").attr("disabled","disabled");
+                $("#favorite").removeAttr("onclick");
+            }else{
+
+            }
+        })
+
+    })
+</script>
+</body>
+
+</html>
